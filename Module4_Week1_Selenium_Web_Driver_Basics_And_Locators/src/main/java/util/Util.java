@@ -13,7 +13,7 @@ public class Util {
     }
 
     public static final String SUBJECT = Util.generateRandomSubjectTitle();
-    //
+
     public static final String SUBJECT_2 = Util.generateRandomSubjectTitle2();
 
 }

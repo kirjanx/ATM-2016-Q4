@@ -1,8 +1,8 @@
+import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import page.BaseClass;
 import page.MailBoxPage;
 import step.MailBoxPageSteps;
 import ui.Browser;
@@ -14,36 +14,20 @@ public class MailBoxMailRuTest {
     private static final String PASSWORD = "q123456";
     private static final String EMAIL_ADDRESS = "someEmail@yandex.ru";
     private static final String BODY_TEXT = "BodyTextTest";
+    private static final String BASE_URL = "https://mail.ru/";
 
-
+    private WebDriver driver;
 
     private MailBoxPageSteps mailBoxPageSteps;
     private MailBoxPage mailBoxPage;
 
-    private BaseClass baseClass;
-
-    private Browser browser;
-
-
-//    @BeforeClass
-//    public void setUpBefore(){
-//        mailBoxPageSteps = new MailBoxPageSteps();
-//        mailBoxPageSteps.initBrowser();
-//        mailBoxPage = new MailBoxPage();
-//    }
-
-    @BeforeClass
+    @BeforeClass(description = "Start browser and initialize pages")
     public void setUpBefore(){
-        browser = new Browser();
-        browser.initBrowser();
-        mailBoxPage = new MailBoxPage();
+        //driver = new FirefoxDriver();
+        driver = Browser.getBrowser();
+        driver.get(BASE_URL);
+        mailBoxPage = new MailBoxPage(driver);
     }
-
-
-
-
-
-
 
     @Test (description = "Verify the login to the mail box")
     public void loginMailBox(){

@@ -2,11 +2,10 @@ package page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import ui.Browser;
 import util.Util;
 
 public class MailBoxPage extends BaseClass{
@@ -19,7 +18,6 @@ public class MailBoxPage extends BaseClass{
     private static final By USER_EMAIL_STRING_AFTER_LOGIN_LOCATOR = By.xpath("//i[@id='PH_user-email']");
     private static final By LOGIN_BUTTON_LOCATOR = By.xpath("//a[@id='PH_authLink']");
     private static final By CREATE_EMAIL_BUTTON_LOCATOR = By.xpath("//a[@class='b-toolbar__btn js-shortcut' and @data-name='compose']");
-
     private static final By EMAIL_FIELD_TO_LOCATOR = By.xpath("//textarea[@class='js-input compose__labels__input' and @data-original-name='To']");
     private static final By EMAIL_FIELD_SUBJECT_LOCATOR = By.xpath("//input[@class='b-input' and @name='Subject']");
     private static final By EMAIL_FIELD_SUBJECT_IFRAME_LOCATOR = By.xpath("//iframe[starts-with(@id, 'toolkit')]");
@@ -29,9 +27,8 @@ public class MailBoxPage extends BaseClass{
     private static final By EMAIL_SEND_BUTTON_LOCATOR = By.xpath("//div[@data-name='send']");
     private static final By EMAIL_DRAFT_FOLDER_LINK_LOCATOR = By.xpath("//i[@class='ico ico_folder ico ico_folder_drafts']");
     private final static By EMAIL_SENT_FOLDER_LINK_LOCATOR = By.xpath("//i[@class='ico ico_folder ico ico_folder_send']");
-
-    //////////////////////////
     private static final String SUBJECT_LOCATOR_PATTERN = "//div[text()='%s']";
+
     private WebElement draftFolderSubjectField;
     private By xpath = By.xpath(String.format(SUBJECT_LOCATOR_PATTERN, Util.generateRandomSubjectTitle()));
 
@@ -39,18 +36,17 @@ public class MailBoxPage extends BaseClass{
 //    private WebElement draftFolderSubjectField;
 //    private By xpath = By.xpath(String.format(SUBJECT_LOCATOR_PATTERN, Util.SUBJECT));
 
-    private static final String SUBJECT_LOCATOR_PATTERN_2 = "//div[text()='%s']";////////////////////////////////////////////////////////////////need to rename
+    private static final String SUBJECT_LOCATOR_PATTERN_2 = "//div[text()='%s']";
     private WebElement draftFolderSubjectField2;
     private By xpath2 = By.xpath(String.format(SUBJECT_LOCATOR_PATTERN_2, Util.SUBJECT_2));
 
     private static final By EMAIL_STRING_IN_THE_DRAFT_LETTER_LOCATOR = By.xpath("//input[@id='compose_to']");
     private static final By SUBJECT_STRING_IN_THE_DRAFT_LETTER_LOCATOR = By.xpath("//div[@class='compose-head__field']/input[1]");
-    private static final By POP_UP_SUBMIT_BUTTON_SEND_MESSAGE = By.xpath("//*[@id='MailRuConfirm']/div/div[3]/form/div[2]/button[1]");////////////////////////need to change locator
+    private static final By POP_UP_SUBMIT_BUTTON_SEND_MESSAGE = By.xpath("//*[@id='MailRuConfirm']/div/div[3]/form/div[2]/button[1]");
     private static final By LOGOUT_LINK_LOCATOR = By.xpath("//a[@id='PH_logoutLink']");
 
-    public MailBoxPage(){
-        super(Browser.getInstance());
-        PageFactory.initElements(driver, this);
+    public MailBoxPage(WebDriver driver) {
+        super(driver);
     }
 
     public void openMainPageMailRu() {

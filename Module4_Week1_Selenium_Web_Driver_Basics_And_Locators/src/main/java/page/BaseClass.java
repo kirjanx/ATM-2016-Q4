@@ -1,24 +1,14 @@
 package page;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 
-import java.util.concurrent.TimeUnit;
+public abstract class BaseClass {
 
-public class BaseClass {
-
-    protected WebDriver driver;
+    protected final WebDriver driver;
 
     public BaseClass(WebDriver driver){
         this.driver = driver;
-
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);////move timeouts to constants
-        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
-
-        driver.manage().window().maximize();
+        PageFactory.initElements(this.driver, this);
     }
-
-    public void closeBrowser() {
-        this.driver.quit();
-    }
-
 }

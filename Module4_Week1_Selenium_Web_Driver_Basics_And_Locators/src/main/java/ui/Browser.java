@@ -2,8 +2,12 @@ package ui;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import java.util.concurrent.TimeUnit;
 
 public class Browser {
+
+    private static final int IMPLICITY_WAIT = 30;
+    private static final int PAGE_LOAD_TIMEOUT = 60;
 
     private static WebDriver driver;
 
@@ -13,18 +17,20 @@ public class Browser {
         }
     }
 
-    public static WebDriver getInstance() {
+    public static WebDriver getBrowser() {
         new Browser();
         return driver;
     }
 
     private static WebDriver getDriver() {
-        return new FirefoxDriver();
-
-
-
+        driver = new FirefoxDriver();
+        prepareDriver();
+        return driver;
     }
 
-    //prepare
-
+    public static void prepareDriver(){
+        driver.manage().timeouts().implicitlyWait(IMPLICITY_WAIT, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
+        driver.manage().window().maximize();
+    }
 }

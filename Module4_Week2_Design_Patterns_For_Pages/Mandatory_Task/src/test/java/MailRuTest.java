@@ -51,7 +51,7 @@ public class MailRuTest {
         Assert.assertEquals(mailBoxPage.getMailAddressFromDraftFolder(), EMAIL_ADDRESS,
                 "Created Email isn't presented in the Draft folder");
         System.out.println("Email was created and saved in Draft folder");
-        mailBoxPage.clearDraft().logout();
+        mailBoxPage.clearMails().logout();
     }
 
     @Test(description = "Login to Mail Box, create new Email, save as Draft, open Draft and check Mail Address")
@@ -60,7 +60,7 @@ public class MailRuTest {
                 openDraft().openMailFromDraft();
         Assert.assertEquals(mailBoxPage.getAddressFromMail(), EMAIL_ADDRESS + ",",
                 "Address in the draft message is invalid");
-        mailBoxPage.openDraft().clearDraft().logout();
+        mailBoxPage.openDraft().clearMails().logout();
     }
 
     @Test(description = "Login to Mail Box, create new Email, save as Draft, open Draft and check Mail Subject")
@@ -69,7 +69,7 @@ public class MailRuTest {
                 openDraft().openMailFromDraft();
         Assert.assertEquals(mailBoxPage.getSubjectFromMail(), EMAIL_SUBJECT,
                 "Subject in the draft message is invalid");
-        mailBoxPage.openDraft().clearDraft().logout();
+        mailBoxPage.openDraft().clearMails().logout();
     }
 
     @Test(description = "Login to Mail Box, create new Email, save as Draft, open Draft and check Mail Body Text")
@@ -78,7 +78,7 @@ public class MailRuTest {
                 openDraft().openMailFromDraft();
         Assert.assertEquals(mailBoxPage.getBodyFromMail(), BODY_TEXT,
                 "Body text in the draft message is invalid");
-        mailBoxPage.openDraft().clearDraft().logout();
+        mailBoxPage.openDraft().clearMails().logout();
     }
 
     @Test(description = "Login to Mail Box, create new Email, save as Draft and send Mail from Draft folder")
@@ -90,7 +90,7 @@ public class MailRuTest {
         Assert.assertFalse(isDraftEmpty, "Sent mail PRESENTS in the Draft folder");
         System.out.println("Mail was sent successfully");
 
-        mailBoxPage.openSent().clearSent().logout();
+        mailBoxPage.openSent().clearMails().logout();
     }
 
     @Test(description = "Login to Mail Box, create new Email, save as Draft and send Mail from Draft folder")
@@ -102,7 +102,7 @@ public class MailRuTest {
         Assert.assertTrue(isSentEmpty, "Sent folder is EMPTY");
         System.out.println("Mail was sent successfully");
 
-        mailBoxPage.clearSent().logout();
+        mailBoxPage.clearMails().logout();
     }
 
     @Test(description = "Login the mail box and perform logout")

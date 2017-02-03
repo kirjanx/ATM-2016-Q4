@@ -46,22 +46,6 @@ public class MailBoxPage {
     @FindBy(xpath = "//i[@class='ico ico_folder ico ico_folder_send']")
     private WebElement sentFolder;
 
-    @FindBy(xpath = "//div[@id='b-toolbar__right']/div[@data-cache-key='500001_undefined_false']" +
-            "/div[@class='b-toolbar b-toolbar_adaptive']/div[@class='b-toolbar__group']" +
-            "/div[@class='b-toolbar__item b-toolbar__item_selectAll']" +
-            "/div[@class='b-dropdown b-dropdown_selectAll']/div[@class='b-dropdown__ctrl']" +
-            "/div[@class='js-checkbox b-checkbox b-checkbox_transparent b-checkbox_false js-shortcut']" +
-            "/div[@class='b-checkbox__box']")
-    private WebElement clearDraftCheckbox;
-
-    @FindBy(xpath = "//div[@id='b-toolbar__right']/div[@data-cache-key='500000_undefined_false']" +
-            "/div[@class='b-toolbar b-toolbar_adaptive']/div[@class='b-toolbar__group']" +
-            "/div[@class='b-toolbar__item b-toolbar__item_selectAll']/div[@class='b-dropdown b-dropdown_selectAll']" +
-            "/div[@class='b-dropdown__ctrl']" +
-            "/div[@class='js-checkbox b-checkbox b-checkbox_transparent b-checkbox_false js-shortcut']" +
-            "/div[@class='b-checkbox__box']")
-    private WebElement clearSentCheckbox;
-
     @FindBy(xpath = "//div[text()='someEmail@yandex.ru']")
     private WebElement draftFolderMailField;
 
@@ -74,8 +58,7 @@ public class MailBoxPage {
     @FindBy(xpath = "//a[@id='PH_logoutLink']")
     private WebElement logoutLink;
 
-    @FindBy(xpath = "//div[@id='MailRuConfirm']/div[@class='popup js-layer popup_dark popup_']" +
-            "/div[@class='is-compose-empty_in']/form[/]/div[@class='popup__controls']/button[@type='submit']")
+    @FindBy(xpath = "//div[@id='MailRuConfirm']//div[3]/form//button[@type='submit']")
     private WebElement popUpSubmitSendMail;
 
     @FindBy(xpath = "//div[@class='message-sent__title']/a[@href='/messages/inbox/']")
@@ -123,9 +106,8 @@ public class MailBoxPage {
         return new MailBoxPage(driver);
     }
 
-    public MailBoxPage clearDraft(){
-        clearDraftCheckbox.click();
-        draftFolder.sendKeys(Keys.DELETE);
+    public MailBoxPage clearMails(){
+        draftFolder.sendKeys(Keys.CONTROL, "a");
         return new MailBoxPage(driver);
     }
 
@@ -134,12 +116,6 @@ public class MailBoxPage {
         sentFolder.click();
         WebDriverWait waitForText = new WebDriverWait(driver, TIME_OUT);
         waitForText.until(ExpectedConditions.elementToBeClickable(textToWaitSentFolder));
-        return new MailBoxPage(driver);
-    }
-
-    public MailBoxPage clearSent(){
-        clearSentCheckbox.click();
-        sentFolder.sendKeys(Keys.DELETE);
         return new MailBoxPage(driver);
     }
 

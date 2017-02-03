@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Timeout" verbose="1" parallel="methods" thread-count="4">
+    <groups>
+        <run>
+            <include name="config"></include>
+            <include name="timeout"></include>
+        </run>
+    </groups>
+
+    <test name="TimeoutTest" >
+        <classes>
+        <class name="TimeoutTest"></class>
+        </classes>
+    </test>
+</suite>

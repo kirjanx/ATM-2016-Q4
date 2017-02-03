@@ -1,0 +1,17 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Calculator" verbose="1" parallel="methods" thread-count="25">
+    <groups>
+        <run>
+           <include name="config"></include>
+            <include name="positive"></include>
+            <include name="negative"></include>
+        </run>
+    </groups>
+
+    <test name="CalculatorTest">
+        <classes>
+            <class name="CalculatorTest"></class>
+        </classes>
+    </test>
+</suite>

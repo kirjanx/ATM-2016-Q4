@@ -21,28 +21,13 @@ public class MailBoxPage extends Page{
     private static final By SEND_MAIL_BUTTON_LOCATOR = By.xpath("//div[@data-name='send']");
     private static final By DRAFT_FOLDER_LOCATOR = By.xpath("//i[@class='ico ico_folder ico ico_folder_drafts']");
     private static final By SENT_FOLDER_LOCATOR = By.xpath("//i[@class='ico ico_folder ico ico_folder_send']");
-    private static final By CLEAR_DRAFT_CHECKBOX_LOCATOR
-            = By.xpath("//div[@id='b-toolbar__right']/div[@data-cache-key='500001_undefined_false']" +
-            "/div[@class='b-toolbar b-toolbar_adaptive']/div[@class='b-toolbar__group']" +
-            "/div[@class='b-toolbar__item b-toolbar__item_selectAll']" +
-            "/div[@class='b-dropdown b-dropdown_selectAll']/div[@class='b-dropdown__ctrl']" +
-            "/div[@class='js-checkbox b-checkbox b-checkbox_transparent b-checkbox_false js-shortcut']" +
-            "/div[@class='b-checkbox__box']");
-    private static final By CLEAR_SENT_CHECKBOX_LOCATOR
-            = By.xpath("//div[@id='b-toolbar__right']/div[@data-cache-key='500000_undefined_false']" +
-            "/div[@class='b-toolbar b-toolbar_adaptive']/div[@class='b-toolbar__group']" +
-            "/div[@class='b-toolbar__item b-toolbar__item_selectAll']/div[@class='b-dropdown b-dropdown_selectAll']" +
-            "/div[@class='b-dropdown__ctrl']" +
-            "/div[@class='js-checkbox b-checkbox b-checkbox_transparent b-checkbox_false js-shortcut']" +
-            "/div[@class='b-checkbox__box']");
     private static final By DRAFT_FOLDER_MAIL_FIELD_LOCATOR = By.xpath("//div[text()='someEmail@yandex.ru']");
     private static final By ADDRESS_INPUT_IN_DRAFT_MAIL_LOCATOR = By.xpath("//input[@id='compose_to']");
     private static final By SUBJECT_INPUT_IN_DRAFT_MAIL_LOCATOR
             = By.xpath("//div[@class='compose-head__field']/input[1]");
     private static final By LOGOUT_LINK_LOCATOR = By.xpath("//a[@id='PH_logoutLink']");
     private static final By POP_UP_SUBMIT_SEND_MAIL_LOCATOR
-            = By.xpath("//div[@id='MailRuConfirm']/div[@class='popup js-layer popup_dark popup_']" +
-            "/div[@class='is-compose-empty_in']/form[/]/div[@class='popup__controls']/button[@type='submit']");
+            = By.xpath("//div[@id='MailRuConfirm']//div[3]/form//button[@type='submit']");
     private static final By INBOX_LINK_AFTER_MAIL_SENT_LOCATOR
             = By.xpath("//div[@class='message-sent__title']/a[@href='/messages/inbox/']");
     private static final By WAIT_TEXT_SENT_FOLDER_LOCATOR = By.xpath("//div[@class='b-kav-protected']");
@@ -56,8 +41,6 @@ public class MailBoxPage extends Page{
     Element sendMailButton = new Element(SEND_MAIL_BUTTON_LOCATOR);
     Element draftFolder = new Element(DRAFT_FOLDER_LOCATOR);
     Element sentFolder = new Element(SENT_FOLDER_LOCATOR);
-    Element clearDraftCheckbox = new Element(CLEAR_DRAFT_CHECKBOX_LOCATOR);
-    Element clearSentCheckbox = new Element(CLEAR_SENT_CHECKBOX_LOCATOR);
     Element draftFolderMailField = new Element(DRAFT_FOLDER_MAIL_FIELD_LOCATOR);
     Element addressInputInDraftMail = new Element(ADDRESS_INPUT_IN_DRAFT_MAIL_LOCATOR);
     Element subjectInputInDraftMail = new Element(SUBJECT_INPUT_IN_DRAFT_MAIL_LOCATOR);
@@ -98,8 +81,8 @@ public class MailBoxPage extends Page{
         return new MailBoxPage(driver);
     }
 
-    public MailBoxPage clearDraft(){
-        clearDraftCheckbox.click();
+    public MailBoxPage clearMails(){
+        draftFolder.useKeyboardCtrlA();
         draftFolder.useKeybordDelete();
         return new MailBoxPage(driver);
     }
@@ -110,12 +93,6 @@ public class MailBoxPage extends Page{
         WebDriverWait waitForText = new WebDriverWait(driver, TIME_OUT);
         waitForText.until(ExpectedConditions.elementToBeClickable
                 (driver.findElement(WAIT_TEXT_SENT_FOLDER_LOCATOR)));
-        return new MailBoxPage(driver);
-    }
-
-    public MailBoxPage clearSent(){
-        clearSentCheckbox.click();
-        sentFolder.useKeybordDelete();
         return new MailBoxPage(driver);
     }
 

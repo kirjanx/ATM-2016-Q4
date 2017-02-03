@@ -32,6 +32,10 @@ public class Element {
         getWrappedWebElement().sendKeys(Keys.DELETE);
     }
 
+    public void useKeyboardCtrlA(){
+        getWrappedWebElement().sendKeys(Keys.CONTROL, "a");
+    }
+
     public boolean isDisplayed(){
         return getWrappedWebElement().isDisplayed();
     }

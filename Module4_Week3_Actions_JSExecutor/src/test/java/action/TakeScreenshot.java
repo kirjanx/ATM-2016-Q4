@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class TakeScreenshot {
 
-    public static final String SCREENSHOT_PATH_NAME = "src/test/java/test/testOutput/";//"D:\\1\\";
+    public static final String SCREENSHOT_PATH_NAME = "src/test/java/test/testOutput/";
     public  String ScreenshotTitle = TakeScreenshot.generateRandomSubjectTitle();
 
     public static String generateRandomSubjectTitle(){

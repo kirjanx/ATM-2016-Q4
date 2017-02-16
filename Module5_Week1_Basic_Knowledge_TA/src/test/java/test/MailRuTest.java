@@ -105,8 +105,8 @@ public class MailRuTest {
         inboxPage.logout();
     }
 
-    @Test(description = "Delete draft email by drag and drop the letter to the trash"/*,
-            dependsOnMethods = "deleteDraftByContextMenu"*/)
+    @Test(description = "Delete draft email by drag and drop the letter to the trash",
+            dependsOnMethods = "deleteDraftByContextMenu")
     public void deleteDraftUsingMouse() {
         homePage.loginToMailBox(new User());
         composeMailPage.createMailAndSaveDraft(new Letter()).openDraftPage().dragAndDropDraftMail();

@@ -11,7 +11,6 @@ import setup.Element;
 public class ComposeMailPage extends Page {
 
     private WebDriverWait webDriverWait;
-//    public static final int WEBDRIVER_WAIT_TIME_OUT = 3;
 
     private static final By CREATE_EMAIL_BUTTON_LOCATOR
             = By.xpath("//a[@class='b-toolbar__btn js-shortcut' and @data-name='compose']");
@@ -23,7 +22,6 @@ public class ComposeMailPage extends Page {
     private static final By SAVE_EMAIL_BUTTON_LOCATOR = By.xpath("//div[@data-name='saveDraft']");
     private static final By NOTIFICATION_STATUS_DRAFT_LINK_LOCATOR
             = By.xpath("//a[@class='toolbar__message_info__link']");
-    //    private static final By DRAFT_FOLDER_LOCATOR = By.xpath("//i[@class='ico ico_folder ico ico_folder_drafts']");
     private static final By ADDRESS_INPUT_IN_DRAFT_MAIL_LOCATOR = By.xpath("//input[@id='compose_to']");
     private static final By SUBJECT_INPUT_IN_DRAFT_MAIL_LOCATOR
             = By.xpath("//div[@class='compose-head__field']/input[1]");
@@ -38,7 +36,6 @@ public class ComposeMailPage extends Page {
     Element emailFieldSubject = new Element(EMAIL_FIELD_SUBJECT_LOCATOR);
     Element emailFieldBody = new Element(EMAIL_FIELD_BODY_LOCATOR);
     Element saveEmailButton = new Element(SAVE_EMAIL_BUTTON_LOCATOR);
-    //    Element draftFolderLink = new Element(DRAFT_FOLDER_LOCATOR);
     Element addressInputInDraftMail = new Element(ADDRESS_INPUT_IN_DRAFT_MAIL_LOCATOR);
     Element subjectInputInDraftMail = new Element(SUBJECT_INPUT_IN_DRAFT_MAIL_LOCATOR);
     Element sendMailButton = new Element(SEND_MAIL_BUTTON_LOCATOR);

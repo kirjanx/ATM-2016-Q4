@@ -1,23 +1,22 @@
 package util.webDriverDecorator;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.HasInputDevices;
+import org.openqa.selenium.interactions.Keyboard;
+import org.openqa.selenium.interactions.Mouse;
+import util.JSActionUtils;
 
 import java.util.List;
 import java.util.Set;
 
-public class CustomDecorator extends FirefoxDriver {
-
-    protected WebDriver driver;
+public class CustomDecorator extends AbstractDecorator {
 
     public CustomDecorator(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
-    public void get(String s) {
-        driver.get(s);
+    public void get(String url) {
+        driver.get(url);
     }
 
     public String getCurrentUrl() {
@@ -33,6 +32,8 @@ public class CustomDecorator extends FirefoxDriver {
     }
 
     public WebElement findElement(By by) {
+        JSActionUtils.highlightElement(driver.findElement(by));
+        JSActionUtils.unHighlightElement(driver.findElement(by));
         return driver.findElement(by);
     }
 
@@ -66,5 +67,25 @@ public class CustomDecorator extends FirefoxDriver {
 
     public Options manage() {
         return driver.manage();
+    }
+
+    public <X> X getScreenshotAs(OutputType<X> target) throws WebDriverException {
+        return ((TakesScreenshot) driver).getScreenshotAs(target);
+    }
+
+    public Keyboard getKeyboard() {
+        return ((HasInputDevices) driver).getKeyboard();
+    }
+
+    public Mouse getMouse() {
+        return ((HasInputDevices) driver).getMouse();
+    }
+
+    public Object executeScript(String script, Object... args) {
+        return ((JavascriptExecutor) driver).executeScript(script, args);
+    }
+
+    public Object executeAsyncScript(String script, Object... args) {
+        return ((JavascriptExecutor) driver).executeAsyncScript(script, args);
     }
 }

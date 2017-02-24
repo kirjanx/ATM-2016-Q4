@@ -14,9 +14,10 @@ import page_object.*;
 import setup.Browser;
 import setup.WebDriverTypes;
 
-import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
+import java.util.ArrayList;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.CombinableMatcher.both;
 import static org.junit.Assert.assertThat;
 
@@ -46,9 +47,9 @@ public class MailRuCriticalPathTest {
         inboxPage = new InboxPage(driver);
         sentPage = new SentPage(driver);
         letter = new LetterBuilder()
-                .address(LetterData.EMAIL_ADDRESS)
-                .subject(LetterData.EMAIL_SUBJECT)
-                .bodyText(LetterData.EMAIL_BODY)
+                .address(LetterData.ADDRESS)
+                .subject(LetterData.SUBJECT)
+                .bodyText(LetterData.BODY)
                 .build();
         sender = UserFactory.createDefaultUser();
         recipient = UserFactory.createUserWithLoginAndPassword(RECIPIENT_LOGIN, RECIPIENT_PASSWORD);
@@ -65,7 +66,7 @@ public class MailRuCriticalPathTest {
     @Test(description = "Create new Email and save as Draft", dependsOnMethods = "loginMailBox")
     public void createMailAndSaveAsDraft() {
         composeMailPage.createMailAndSaveDraft(letter).openDraftPage();
-        Assert.assertEquals(draftPage.getMailAddressFromDraftPage(), letter.getEmailAddress(),
+        Assert.assertEquals(draftPage.getMailAddressFromDraftPage(), letter.getAddress(),
                 "Created Email isn't presented in the Draft folder");
 
         System.out.println("Email was created and saved in Draft folder");
@@ -89,44 +90,23 @@ public class MailRuCriticalPathTest {
         System.out.println("Logout was completed correctly");
     }
 
-    @Test/*(description = "Create mail, save as draft, open draft mail and verify data in all fields",
-            dependsOnMethods = "clearMailAndLogout")*/
+    @Test(description = "Create mail, save as draft, open draft mail and verify data in all fields",
+            dependsOnMethods = "clearMailAndLogout")
     public void openMailFromDraft() {
         homePage.loginToMailBox(sender);
         composeMailPage.createMailAndSaveDraft(letter).openDraftPage();
 
-//        ArrayList email = new ArrayList();
-//        email.add(letter.getEmailAddress());
-//        email.add(letter.getEmailSubject());
-//        email.add(letter.getEmailBodyText());
+        ArrayList email = new ArrayList();
+        email.add(letter.getAddress());
+        email.add(letter.getSubject());
+        email.add(letter.getBodyText());
 
         draftPage.openMailFromDraft();
-//        assertThat(String.valueOf(email), both(containsString(composeMailPage.getAddressFromMail())).
-//                and(containsString(composeMailPage.getSubjectFromMail())).
-//                and(containsString(composeMailPage.getBodyFromMail())));
-
-//        assertThat("Some of letter's properties are wrong or it's missing.", letter, allOf(
-//                hasProperty("EMAIL_ADDRESS", equalTo(composeMailPage.getAddressFromMail())),
-//                hasProperty("EMAIL_SUBJECT", equalTo(composeMailPage.getSubjectFromMail())),
-//                hasProperty("bodyText", equalTo(composeMailPage.getBodyFromMail()))));
-
-
-        ///////////////////////////example working
-        assertThat("Reason", letter.getEmailAddress()+",",containsString(
-                ((composeMailPage.getAddressFromMail()))
-
-        ));
+        assertThat(String.valueOf(email), both(containsString(composeMailPage.getAddressFromMail())).
+                and(containsString(composeMailPage.getSubjectFromMail())).
+                and(containsString(composeMailPage.getBodyFromMail())));
 
         draftPage.openDraftPage().clearDraftMail().logout();
-
-
-        assertThat("Some of letter's properties are wrong or it's missing.", letter, allOf(
-                hasProperty("EMAIL_ADDRESS", equalTo(composeMailPage.getAddressFromMail())),
-                hasProperty("EMAIL_SUBJECT", equalTo(composeMailPage.getSubjectFromMail())),
-                hasProperty("bodyText", equalTo(composeMailPage.getBodyFromMail()))));
-
-
-
     }
 
     @AfterClass(description = "Close browser")

@@ -1,6 +1,7 @@
 package setup;
 
 import org.openqa.selenium.WebDriver;
+
 import static setup.DriverFactory.getWebDriverInstance;
 
 public class Browser {
@@ -21,9 +22,4 @@ public class Browser {
             }
         }
     }
-
-
-
-
-
 }

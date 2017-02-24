@@ -8,18 +8,18 @@ public class LetterBuilder {
         letter = LetterFactory.createDefaultLetter();
     }
 
-    public LetterBuilder address(String emailAddress) {
-        letter.setEmailAddress(emailAddress);
+    public LetterBuilder address(String address) {
+        letter.setAddress(address);
         return this;
     }
 
-    public LetterBuilder subject(String emailSubject) {
-        letter.setEmailSubject(emailSubject);
+    public LetterBuilder subject(String subject) {
+        letter.setSubject(subject);
         return this;
     }
 
-    public LetterBuilder bodyText(String emailBodyText) {
-        letter.setEmailBody(emailBodyText);
+    public LetterBuilder bodyText(String bodyText) {
+        letter.setEmailBody(bodyText);
         return this;
     }
 

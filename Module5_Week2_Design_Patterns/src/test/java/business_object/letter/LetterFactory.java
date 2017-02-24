@@ -1,59 +1,59 @@
 package business_object.letter;
 
-import static business_object.letter.LetterData.EMAIL_ADDRESS;
-import static business_object.letter.LetterData.EMAIL_BODY;
-import static business_object.letter.LetterData.EMAIL_SUBJECT;
+import static business_object.letter.LetterData.ADDRESS;
+import static business_object.letter.LetterData.BODY;
+import static business_object.letter.LetterData.SUBJECT;
 
 public class LetterFactory {
 
-    private String emailAddress;
-    private String emailSubject;
-    private String emailBody;
+    private String address;
+    private String subject;
+    private String body;
 
     public static Letter createDefaultLetter() {
         Letter letter = new Letter();
-        letter.setEmailAddress(EMAIL_ADDRESS);
-        letter.setEmailSubject(EMAIL_SUBJECT);
-        letter.setEmailBody(EMAIL_BODY);
+        letter.setAddress(ADDRESS);
+        letter.setSubject(SUBJECT);
+        letter.setEmailBody(BODY);
         return letter;
     }
 
-    public static Letter createLetterWithAddress(String emailAddress) {
+    public static Letter createLetterWithAddress(String address) {
         Letter letter = new Letter();
-        letter.setEmailAddress(emailAddress);
+        letter.setAddress(address);
         return letter;
     }
 
-    public static Letter createLetterWithSubject(String emailSubject) {
+    public static Letter createLetterWithSubject(String subject) {
         Letter letter = new Letter();
-        letter.setEmailAddress(emailSubject);
+        letter.setAddress(subject);
         return letter;
     }
 
-    public static Letter createLetterWithBody(String emailBody) {
+    public static Letter createLetterWithBody(String body) {
         Letter letter = new Letter();
-        letter.setEmailAddress(emailBody);
+        letter.setAddress(body);
         return letter;
     }
 
-    public static Letter createLetterWithAddressAndSubject(String emailAddress, String emailSubject) {
+    public static Letter createLetterWithAddressAndSubject(String address, String subject) {
         Letter letter = new Letter();
-        letter.setEmailAddress(emailAddress);
-        letter.setEmailAddress(emailSubject);
+        letter.setAddress(address);
+        letter.setAddress(subject);
         return letter;
     }
 
-    public static Letter createLetterWithAddressAndBody(String emailAddress, String emailBody) {
+    public static Letter createLetterWithAddressAndBody(String address, String body) {
         Letter letter = new Letter();
-        letter.setEmailAddress(emailAddress);
-        letter.setEmailAddress(emailBody);
+        letter.setAddress(address);
+        letter.setAddress(body);
         return letter;
     }
 
-    public static Letter createLetterWithBodyAndSubject(String emailBody, String emailSubject) {
+    public static Letter createLetterWithBodyAndSubject(String body, String subject) {
         Letter letter = new Letter();
-        letter.setEmailAddress(emailBody);
-        letter.setEmailAddress(emailSubject);
+        letter.setAddress(body);
+        letter.setAddress(subject);
         return letter;
     }
 }

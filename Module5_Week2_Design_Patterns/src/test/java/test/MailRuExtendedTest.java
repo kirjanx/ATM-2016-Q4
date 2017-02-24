@@ -1,6 +1,8 @@
 package test;
 
 import business_object.letter.Letter;
+import business_object.letter.LetterBuilder;
+import business_object.letter.LetterData;
 import business_object.user.User;
 import business_object.user.UserFactory;
 import org.openqa.selenium.WebDriver;
@@ -33,7 +35,11 @@ public class MailRuExtendedTest {
         draftPage = new DraftPage(driver);
         homePage = new HomePage(driver);
         inboxPage = new InboxPage(driver);
-        letter = new Letter();
+        letter = new LetterBuilder()
+                .address(LetterData.ADDRESS)
+                .subject(LetterData.SUBJECT)
+                .bodyText(LetterData.BODY)
+                .build();
         sender = UserFactory.createDefaultUser();
     }
 
@@ -57,7 +63,7 @@ public class MailRuExtendedTest {
         System.out.println("Draft folder is empty");
     }
 
-    @AfterMethod
+    @AfterMethod(description = "Logout")
     public void performLogout() {
         inboxPage.logout();
     }

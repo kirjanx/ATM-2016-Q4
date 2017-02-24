@@ -2,31 +2,31 @@ package business_object.letter;
 
 public class Letter {
 
-    private String emailAddress;
-    private String emailSubject;
-    private String emailBodyText;
+    private String address;
+    private String subject;
+    private String bodyText;
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getAddress() {
+        return address;
     }
 
-    public String getEmailSubject() {
-        return emailSubject;
+    public String getSubject() {
+        return subject;
     }
 
-    public String getEmailBodyText() {
-        return emailBodyText;
+    public String getBodyText() {
+        return bodyText;
     }
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public void setEmailSubject(String emailSubject) {
-        this.emailSubject = emailSubject;
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     public void setEmailBody(String emailBodyText) {
-        this.emailBodyText = emailBodyText;
+        this.bodyText = emailBodyText;
     }
 }

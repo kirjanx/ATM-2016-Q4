@@ -40,10 +40,10 @@ public class ComposeMailPage extends Page {
 
     public DraftPage createMailAndSaveDraft(Letter letter) {
         createEmailButton.click();
-        emailFieldTo.typeValue(letter.getEmailAddress());
-        emailFieldSubject.typeValue(letter.getEmailSubject());
+        emailFieldTo.typeValue(letter.getAddress());
+        emailFieldSubject.typeValue(letter.getSubject());
         driver.switchTo().frame(driver.findElement(EMAIL_FIELD_BODY_IFRAME_LOCATOR));
-        emailFieldBody.typeValue(letter.getEmailBodyText());
+        emailFieldBody.typeValue(letter.getBodyText());
         driver.switchTo().defaultContent();
         saveEmailButton.click();
 

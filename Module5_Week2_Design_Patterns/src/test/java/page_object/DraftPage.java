@@ -26,7 +26,6 @@ public class DraftPage extends Page {
     Element sentFolderLink = new Element(SENT_FOLDER_LINK_LOCATOR);
     Element draftFolderLink = new Element(DRAFT_FOLDER_LINK_LOCATOR);
     Element trashIconInContextMenuLink = new Element(TRASH_ICON_IN_CONTEXT_MENU_LOCATOR);
-    Element emailFieldTo = new Element(EMAIL_FIELD_TO_LOCATOR);
 
     public DraftPage(WebDriver driver) {
         super(driver);
@@ -46,7 +45,6 @@ public class DraftPage extends Page {
         draftFolderMailField.click();
         waiter.until(ExpectedConditions.elementToBeClickable
                 (driver.findElement(EMAIL_FIELD_TO_LOCATOR)));
-//        (driver.findElement(WAIT_TEXT_SENT_FOLDER_LOCATOR)));
         return new ComposeMailPage(driver);
     }
 

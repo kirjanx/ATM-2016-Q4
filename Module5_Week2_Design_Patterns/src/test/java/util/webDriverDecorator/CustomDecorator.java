@@ -4,12 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import util.JSActionUtils;
 
 import java.util.List;
 import java.util.Set;
 
-public class CustomDecorator extends FirefoxDriver{
+public class CustomDecorator extends FirefoxDriver {
 
     protected WebDriver driver;
 
@@ -34,12 +33,6 @@ public class CustomDecorator extends FirefoxDriver{
     }
 
     public WebElement findElement(By by) {
-
-        /////////////////////////////////////////////////////
-
-        JSActionUtils.highlightElement(driver.findElement(by));
-        JSActionUtils.unHighlightElement(driver.findElement(by));
-
         return driver.findElement(by);
     }
 

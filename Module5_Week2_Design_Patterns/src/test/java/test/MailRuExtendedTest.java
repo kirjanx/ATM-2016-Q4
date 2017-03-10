@@ -47,9 +47,9 @@ public class MailRuExtendedTest {
     public void deleteDraftByContextMenu() {
         homePage.loginToMailBox(sender);
         composeMailPage.createMailAndSaveDraft(letter).
-                openDraftPage().openContextMenu().deleteLetterByContextMenu();
+                openDraftPage().openContextMenu(letter).deleteLetterByContextMenu();
 
-        Assert.assertTrue(!draftPage.isDraftFolderHasLetter());
+        Assert.assertFalse(draftPage.isDraftFolderHasLetter(letter));
         System.out.println("Draft folder is empty");
     }
 
@@ -57,9 +57,9 @@ public class MailRuExtendedTest {
             dependsOnMethods = "deleteDraftByContextMenu")
     public void deleteDraftUsingMouse() {
         homePage.loginToMailBox(sender);
-        composeMailPage.createMailAndSaveDraft(letter).openDraftPage().dragAndDropDraftMail();
+        composeMailPage.createMailAndSaveDraft(letter).openDraftPage().dragAndDropDraftMail(letter);
 
-        Assert.assertTrue(!draftPage.isDraftFolderHasLetter());
+        Assert.assertFalse(draftPage.isDraftFolderHasLetter(letter));
         System.out.println("Draft folder is empty");
     }
 

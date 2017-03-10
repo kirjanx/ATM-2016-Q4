@@ -5,12 +5,16 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import setup.exceptions.UnknownDriverTypeException;
+import util.webDriverDecorator.CustomDecorator;
 
 import java.util.concurrent.TimeUnit;
 
 public class DriverFactory {
 
     private static WebDriver driver;
+
+    private static final String IE_DRIVER_PATH = "src/test/java/resource/driverbinaries/IEDriverServer.exe";
+    private static final String CHROME_DRIVER_PATH = "src/test/java/resource/driverbinaries/chromedriver.exe";
 
     private static final int IMPLICIT_WAIT = 20;
     private static final int PAGE_LOAD_TIMEOUT = 20;
@@ -22,20 +26,19 @@ public class DriverFactory {
                 driver = new FirefoxDriver();
                 break;
             }
-            case IE: {
-                System.setProperty("webdriver.ie.driver", "src/test/java/resource/driverbinaries/IEDriverServer.exe");
-                driver = new InternetExplorerDriver();
+            case CHROME: {
+                driver = new ChromeDriver();
                 break;
             }
-            case CHROME: {
-                System.setProperty("webdriver.chrome.driver", "src/test/java/resource/driverbinaries/chromedriver.exe");
-                driver = new ChromeDriver();
+            case IE: {
+                driver = new InternetExplorerDriver();
                 break;
             }
             default:
                 throw new UnknownDriverTypeException("Unknown web driver specified: " + type);
         }
         prepareTimeouts();
+        driver = new CustomDecorator(driver);
         return driver;
     }
 
@@ -46,18 +49,20 @@ public class DriverFactory {
     }
 
     public static WebDriver getChromeInstance() {
+        System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_PATH);
         driver = new ChromeDriver();
         prepareTimeouts();
         return driver;
     }
 
     public static WebDriver getIEInstance() {
+        System.setProperty("webdriver.ie.driver", IE_DRIVER_PATH);
         driver = new InternetExplorerDriver();
         prepareTimeouts();
         return driver;
     }
 
-    public static void prepareTimeouts() {
+    private static void prepareTimeouts() {
         driver.manage().timeouts().implicitlyWait(IMPLICIT_WAIT, TimeUnit.SECONDS);
         driver.manage().timeouts().pageLoadTimeout(PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
         driver.manage().window().maximize();

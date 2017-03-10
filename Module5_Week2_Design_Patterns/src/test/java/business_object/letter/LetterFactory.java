@@ -6,10 +6,6 @@ import static business_object.letter.LetterData.SUBJECT;
 
 public class LetterFactory {
 
-    private String address;
-    private String subject;
-    private String body;
-
     public static Letter createDefaultLetter() {
         Letter letter = new Letter();
         letter.setAddress(ADDRESS);

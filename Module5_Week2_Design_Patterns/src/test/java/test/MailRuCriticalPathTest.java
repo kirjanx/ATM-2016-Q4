@@ -14,17 +14,14 @@ import page_object.*;
 import setup.Browser;
 import setup.WebDriverTypes;
 
-import java.util.ArrayList;
-
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.CombinableMatcher.both;
 import static org.junit.Assert.assertThat;
 
 public class MailRuCriticalPathTest {
 
-    private static final String RECIPIENT_LOGIN = "someEmail";
-    private static final String RECIPIENT_PASSWORD = "123456";
     private static final String BASE_URL = "https://mail.ru/";
 
     private WebDriver driver;
@@ -35,7 +32,6 @@ public class MailRuCriticalPathTest {
     private SentPage sentPage;
     private Letter letter;
     private User sender;
-    private User recipient;
 
     @BeforeClass(description = "Start browser and initialize pages")
     public void setUpBefore() {
@@ -52,7 +48,6 @@ public class MailRuCriticalPathTest {
                 .bodyText(LetterData.BODY)
                 .build();
         sender = UserFactory.createDefaultUser();
-        recipient = UserFactory.createUserWithLoginAndPassword(RECIPIENT_LOGIN, RECIPIENT_PASSWORD);
     }
 
     @Test(description = "Login to Mail.ru mailbox")
@@ -66,17 +61,17 @@ public class MailRuCriticalPathTest {
     @Test(description = "Create new Email and save as Draft", dependsOnMethods = "loginMailBox")
     public void createMailAndSaveAsDraft() {
         composeMailPage.createMailAndSaveDraft(letter).openDraftPage();
-        Assert.assertEquals(draftPage.getMailAddressFromDraftPage(), letter.getAddress(),
+        Assert.assertEquals(draftPage.getMailAddressFromDraftPage(letter), letter.getAddress(),
                 "Created Email isn't presented in the Draft folder");
-
         System.out.println("Email was created and saved in Draft folder");
     }
 
     @Test(description = "Send mail and verify Draft and Sent folders", dependsOnMethods = "createMailAndSaveAsDraft")
     public void sendMailFromDraft() {
-        boolean isDraftFolderEmpty = !draftPage.openMailFromDraft().sendMail().openDraftPage().isDraftFolderHasLetter();
-        boolean isSentFolderHasLetter = draftPage.openSentPage().isSentFolderHasLetter();
-
+        boolean isDraftFolderEmpty = !draftPage.openMailFromDraft(letter).
+                sendMail().openDraftPage().isDraftFolderHasLetter(letter);
+        boolean isSentFolderHasLetter = draftPage.openSentPage().
+                isSentFolderHasLetter(letter);
         assertThat(true, both(is(isSentFolderHasLetter)).and(is(isDraftFolderEmpty)));
         System.out.println("Mail was sent successfully");
     }
@@ -84,7 +79,6 @@ public class MailRuCriticalPathTest {
     @Test(description = "Perform performLogout", dependsOnMethods = "sendMailFromDraft")
     public void clearMailAndLogout() {
         sentPage.clearSentMail().logout();
-
         boolean logoutIsComplete = homePage.isLogoutSuccessful();
         Assert.assertTrue(logoutIsComplete, "Logout wasn't completed correctly");
         System.out.println("Logout was completed correctly");
@@ -96,15 +90,10 @@ public class MailRuCriticalPathTest {
         homePage.loginToMailBox(sender);
         composeMailPage.createMailAndSaveDraft(letter).openDraftPage();
 
-        ArrayList email = new ArrayList();
-        email.add(letter.getAddress());
-        email.add(letter.getSubject());
-        email.add(letter.getBodyText());
-
-        draftPage.openMailFromDraft();
-        assertThat(String.valueOf(email), both(containsString(composeMailPage.getAddressFromMail())).
-                and(containsString(composeMailPage.getSubjectFromMail())).
-                and(containsString(composeMailPage.getBodyFromMail())));
+        assertThat("Some of letter's properties are wrong or it's missing.", letter, allOf(
+                hasProperty("address", equalTo(composeMailPage.getAddressFromMail())),
+                hasProperty("subject", equalTo(composeMailPage.getSubjectFromMail())),
+                hasProperty("bodyText", equalTo(composeMailPage.getBodyFromMail()))));
 
         draftPage.openDraftPage().clearDraftMail().logout();
     }

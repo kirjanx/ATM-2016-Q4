@@ -5,9 +5,6 @@ import static business_object.user.UserCredentials.SENDER_PASSWORD;
 
 public class UserFactory {
 
-    private String senderLogin;
-    private String senderPassword;
-
     public static User createDefaultUser() {
         User user = new User();
         user.setLogin(SENDER_LOGIN);

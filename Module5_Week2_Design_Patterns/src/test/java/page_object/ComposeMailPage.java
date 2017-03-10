@@ -4,12 +4,13 @@ import business_object.letter.Letter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import setup.DriverFactory;
 import setup.Element;
-import util.Waiter;
 
 public class ComposeMailPage extends Page {
 
-    Waiter waiter = new Waiter();
+    private WebDriverWait webDriverWait = new WebDriverWait(driver, DriverFactory.WEBDRIVER_WAIT_TIME_OUT);
 
     private static final By CREATE_EMAIL_BUTTON_LOCATOR = By.xpath("//a[@class='b-toolbar__btn js-shortcut' and @data-name='compose']");
     private static final By EMAIL_FIELD_TO_LOCATOR = By.xpath("//textarea[@class='js-input compose__labels__input' and @data-original-name='To']");
@@ -18,8 +19,9 @@ public class ComposeMailPage extends Page {
     private static final By EMAIL_FIELD_BODY_LOCATOR = By.xpath("//body[@id='tinymce']");
     private static final By SAVE_EMAIL_BUTTON_LOCATOR = By.xpath("//div[@data-name='saveDraft']");
     private static final By NOTIFICATION_STATUS_DRAFT_LINK_LOCATOR = By.xpath("//a[@class='toolbar__message_info__link']");
-    private static final By ADDRESS_INPUT_IN_DRAFT_MAIL_LOCATOR = By.xpath("//input[@id='compose_to']");
-    private static final By SUBJECT_INPUT_IN_DRAFT_MAIL_LOCATOR = By.xpath("//div[@class='compose-head__field']/input[1]");
+    private static final By ADDRESS_INPUT_IN_DRAFT_MAIL_LOCATOR = By.xpath("//div[@class='b-datalist__item__addr']");
+    private static final By SUBJECT_INPUT_IN_DRAFT_MAIL_LOCATOR = By.xpath("//a[@class='js-href b-datalist__item__link']");
+    private static final By BODY_INPUT_IN_DRAFT_MAIL_LOCATOR = By.xpath("//span[@class='b-datalist__item__subj__snippet']");
     private static final By SEND_MAIL_BUTTON_LOCATOR = By.xpath("//div[@data-name='send']");
     private static final By POP_UP_SUBMIT_SEND_MAIL_LOCATOR = By.xpath("//div[@id='MailRuConfirm']//div[3]/form//button[@type='submit']");
     private static final By INBOX_LINK_AFTER_MAIL_SENT_LOCATOR = By.xpath("//div[@class='message-sent__title']/a[@href='/messages/inbox/']");
@@ -33,6 +35,7 @@ public class ComposeMailPage extends Page {
     Element subjectInputInDraftMail = new Element(SUBJECT_INPUT_IN_DRAFT_MAIL_LOCATOR);
     Element sendMailButton = new Element(SEND_MAIL_BUTTON_LOCATOR);
     Element popUpSubmitSendMail = new Element(POP_UP_SUBMIT_SEND_MAIL_LOCATOR);
+    Element bodyInputInDraftMail = new Element(BODY_INPUT_IN_DRAFT_MAIL_LOCATOR);
 
     public ComposeMailPage(WebDriver driver) {
         super(driver);
@@ -47,22 +50,21 @@ public class ComposeMailPage extends Page {
         driver.switchTo().defaultContent();
         saveEmailButton.click();
 
-        waiter.until(ExpectedConditions.elementToBeClickable
+        webDriverWait.until(ExpectedConditions.elementToBeClickable
                 (driver.findElement(NOTIFICATION_STATUS_DRAFT_LINK_LOCATOR)));
         return new DraftPage(driver);
     }
 
     public String getAddressFromMail() {
-        return addressInputInDraftMail.getAttributeValue("value");
+        return addressInputInDraftMail.getText();
     }
 
     public String getSubjectFromMail() {
-        return subjectInputInDraftMail.getAttributeValue("value");
+        return subjectInputInDraftMail.getAttributeValue("data-subject");
     }
 
     public String getBodyFromMail() {
-        driver.switchTo().frame(driver.findElement(EMAIL_FIELD_BODY_IFRAME_LOCATOR));
-        return emailFieldBody.getText();
+        return bodyInputInDraftMail.getText();
     }
 
     public DraftPage sendMail() {
@@ -71,7 +73,7 @@ public class ComposeMailPage extends Page {
         driver.switchTo().window(windowHandle);
         popUpSubmitSendMail.click();
 
-        waiter.until(ExpectedConditions.elementToBeClickable
+        webDriverWait.until(ExpectedConditions.elementToBeClickable
                 (driver.findElement(INBOX_LINK_AFTER_MAIL_SENT_LOCATOR)));
         return new DraftPage(driver);
     }

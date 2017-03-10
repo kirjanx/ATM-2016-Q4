@@ -1,5 +1,6 @@
 package page_object;
 
+import business_object.letter.Letter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -7,14 +8,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import setup.DriverFactory;
 import setup.Element;
-import util.Waiter;
 
 public class DraftPage extends Page {
 
     private WebDriverWait webDriverWait = new WebDriverWait(driver, DriverFactory.WEBDRIVER_WAIT_TIME_OUT);
-    Waiter waiter = new Waiter();
 
-    private static final By DRAFT_FOLDER_MAIL_FIELD_LOCATOR = By.xpath("//div[text()='someEmail@yandex.ru']");
+    private static final String DRAFT_FOLDER_MAIL_FIELD_LOCATOR_PATTERN = "//div[text()='%s']";
+    private Element draftFolderMailField;
+
     private static final By WAIT_TEXT_SENT_FOLDER_LOCATOR = By.xpath("//div[@class='b-kav-protected']");
     private static final By SENT_FOLDER_LINK_LOCATOR = By.xpath("//i[@class='ico ico_folder ico ico_folder_send']");
     private static final By DRAFT_FOLDER_LINK_LOCATOR = By.xpath("//i[@class='ico ico_folder ico ico_folder_drafts']");
@@ -22,7 +23,6 @@ public class DraftPage extends Page {
     private static final By TRASH_ICON_LOCATOR = By.xpath("//i[@class='ico ico_folder ico ico_folder_trash']");
     private static final By EMAIL_FIELD_TO_LOCATOR = By.xpath("//textarea[@class='js-input compose__labels__input' and @data-original-name='To']");
 
-    Element draftFolderMailField = new Element(DRAFT_FOLDER_MAIL_FIELD_LOCATOR);
     Element sentFolderLink = new Element(SENT_FOLDER_LINK_LOCATOR);
     Element draftFolderLink = new Element(DRAFT_FOLDER_LINK_LOCATOR);
     Element trashIconInContextMenuLink = new Element(TRASH_ICON_IN_CONTEXT_MENU_LOCATOR);
@@ -31,7 +31,14 @@ public class DraftPage extends Page {
         super(driver);
     }
 
-    public String getMailAddressFromDraftPage() {
+    public void initializeDraftFolderMailFieldElement(Letter letter) {
+        By DRAFT_FOLDER_MAIL_FIELD_LOCATOR = By.xpath(
+                String.format(DRAFT_FOLDER_MAIL_FIELD_LOCATOR_PATTERN, letter.getAddress()));
+        draftFolderMailField = new Element(DRAFT_FOLDER_MAIL_FIELD_LOCATOR);
+    }
+
+    public String getMailAddressFromDraftPage(Letter letter) {
+        initializeDraftFolderMailFieldElement(letter);
         return draftFolderMailField.getText();
     }
 
@@ -41,14 +48,16 @@ public class DraftPage extends Page {
         return new DraftPage(driver);
     }
 
-    public ComposeMailPage openMailFromDraft() {
+    public ComposeMailPage openMailFromDraft(Letter letter) {
+        initializeDraftFolderMailFieldElement(letter);
         draftFolderMailField.click();
-        waiter.until(ExpectedConditions.elementToBeClickable
+        webDriverWait.until(ExpectedConditions.elementToBeClickable
                 (driver.findElement(EMAIL_FIELD_TO_LOCATOR)));
         return new ComposeMailPage(driver);
     }
 
-    public boolean isDraftFolderHasLetter() {
+    public boolean isDraftFolderHasLetter(Letter letter) {
+        initializeDraftFolderMailFieldElement(letter);
         return draftFolderMailField.isPresent();
     }
 
@@ -64,7 +73,8 @@ public class DraftPage extends Page {
         return new InboxPage(driver);
     }
 
-    public DraftPage openContextMenu() {
+    public DraftPage openContextMenu(Letter letter) {
+        initializeDraftFolderMailFieldElement(letter);
         draftFolderMailField.contextClick();
         return new DraftPage(driver);
     }
@@ -76,7 +86,11 @@ public class DraftPage extends Page {
         return new DraftPage(driver);
     }
 
-    public DraftPage dragAndDropDraftMail() {
+    public DraftPage dragAndDropDraftMail(Letter letter) {
+        By DRAFT_FOLDER_MAIL_FIELD_LOCATOR = By.xpath(
+                String.format(DRAFT_FOLDER_MAIL_FIELD_LOCATOR_PATTERN, letter.getAddress()));
+        draftFolderMailField = new Element(DRAFT_FOLDER_MAIL_FIELD_LOCATOR);
+
         new Actions(driver).dragAndDrop(driver.findElement(DRAFT_FOLDER_MAIL_FIELD_LOCATOR),
                 driver.findElement(TRASH_ICON_LOCATOR)).build().perform();
         webDriverWait.until(ExpectedConditions.elementToBeClickable(driver.findElement(WAIT_TEXT_SENT_FOLDER_LOCATOR)));

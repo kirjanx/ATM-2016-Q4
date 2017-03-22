@@ -10,7 +10,6 @@ import setup.Product;
 
 import java.io.IOException;
 
-
 public class ProductTest {
 
     private GetMethod getMethod;
@@ -39,6 +38,7 @@ public class ProductTest {
 
     @Test(description = "Delete product", dependsOnMethods = "createProduct")
     public void deleteProduct() throws IOException {
+        System.out.println("Deleting Product with ID=" + product.getID());
         deleteMethod.deleteRequest();
 
         getMethod.getRequest();

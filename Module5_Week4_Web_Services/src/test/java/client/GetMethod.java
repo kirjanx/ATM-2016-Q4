@@ -26,12 +26,10 @@ public class GetMethod {
     }
 
     public boolean responseIs200OK() {
-        RequestData.RESPONSE_200_OK.equals(response.getStatusLine());
-        return true;
+        return RequestData.RESPONSE_200_OK.equals(response.getStatusLine().toString());
     }
 
     public boolean responseIs404() {
-        RequestData.RESPONSE_404_NOT_FOUND.equals(response.getStatusLine());
-        return true;
+        return RequestData.RESPONSE_404_NOT_FOUND.equals(response.getStatusLine().toString());
     }
 }

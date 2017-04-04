@@ -16,11 +16,12 @@ public class DeleteMethod {
     private HttpResponse response;
     private HttpDelete deleteRequest;
 
-    public void deleteRequest() throws IOException {
+    public void sendRequest() throws IOException {
         product = new Product();
         client = HttpClientBuilder.create().build();
 
-        deleteRequest = new HttpDelete(RequestData.PRODUCT_URL + product.getID());
+        deleteRequest = new HttpDelete(RequestData.URL + product.getId());
         response = client.execute(deleteRequest);
+        System.out.println("Response is: " + response.getStatusLine());
     }
 }

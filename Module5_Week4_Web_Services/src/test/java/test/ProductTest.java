@@ -7,6 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import setup.Product;
+import setup.ProductFactory;
 
 import java.io.IOException;
 
@@ -22,28 +23,28 @@ public class ProductTest {
         getMethod = new GetMethod();
         postMethod = new PostMethod();
         deleteMethod = new DeleteMethod();
-        product = new Product();
+        product = ProductFactory.createProduct();
     }
 
     @Test(description = "Create product with random ID")
     public void createProduct() throws IOException {
-        postMethod.postRequest();
-        System.out.println("Product ID for current test is: " + product.getID());
+        System.out.println("Product ID for current test is: " + product.getId());
+        postMethod.sendRequest();
 
-        getMethod.getRequest();
-        Assert.assertTrue(getMethod.responseIs200OK());
-        System.out.println("Product with ID=" + product.getID() + "" +
+        getMethod.sendRequest();
+        Assert.assertTrue(getMethod.isResponse200OK(), "Response is \"NOT 200\"");
+        System.out.println("Product with ID=" + product.getId() + "" +
                 " was posted successfully");
     }
 
     @Test(description = "Delete product", dependsOnMethods = "createProduct")
     public void deleteProduct() throws IOException {
-        System.out.println("Deleting Product with ID=" + product.getID());
-        deleteMethod.deleteRequest();
+        System.out.println("Deleting Product with ID=" + product.getId());
+        deleteMethod.sendRequest();
 
-        getMethod.getRequest();
-        Assert.assertTrue(getMethod.responseIs404());
-        System.out.println("Product with ID=" + product.getID() + "" +
+        getMethod.sendRequest();
+        Assert.assertTrue(getMethod.isResponse404(), "Response is \"NOT 404\"");
+        System.out.println("Product with ID=" + product.getId() + "" +
                 " was deleted successfully");
     }
 }

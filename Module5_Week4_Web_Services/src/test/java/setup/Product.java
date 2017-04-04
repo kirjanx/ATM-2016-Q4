@@ -1,12 +1,14 @@
 package setup;
 
-import util.RandomNumbers;
-
 public class Product {
 
-    private static int ID = RandomNumbers.generateRandomNumber();
+    private int id;
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -14,22 +14,23 @@ public class PostMethod {
 
     private Product product;
     private StringEntity entity;
-    private HttpPost post;
+    private HttpPost postRequest;
     private HttpClient client;
     private HttpResponse response;
 
-    public void postRequest() throws IOException {
+    public void sendRequest() throws IOException {
         product = new Product();
         client = HttpClientBuilder.create().build();
 
         String xml = "<PRODUCT>\n" +
                 "<ID>%s</ID>\n" +
                 "</PRODUCT>";
-        entity = new StringEntity(String.format(xml, product.getID()));
+        entity = new StringEntity(String.format(xml, product.getId()));
 
-        post = new HttpPost(RequestData.INITIAL_URL);
-        post.setEntity(entity);
+        postRequest = new HttpPost(RequestData.URL);
+        postRequest.setEntity(entity);
 
-        response = client.execute(post);
-        }
+        response = client.execute(postRequest);
+        System.out.println("Response is: " + response.getStatusLine());
+    }
 }

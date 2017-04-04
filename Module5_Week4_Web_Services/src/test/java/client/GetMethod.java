@@ -16,20 +16,20 @@ public class GetMethod {
     private HttpResponse response;
     private HttpGet getRequest;
 
-    public void getRequest() throws IOException {
+    public void sendRequest() throws IOException {
         product = new Product();
         client = HttpClientBuilder.create().build();
 
-        getRequest = new HttpGet(RequestData.PRODUCT_URL + product.getID());
+        getRequest = new HttpGet(RequestData.URL + product.getId());
         response = client.execute(getRequest);
         System.out.println("Response is: " + response.getStatusLine());
     }
 
-    public boolean responseIs200OK() {
+    public boolean isResponse200OK() {
         return RequestData.RESPONSE_200_OK.equals(response.getStatusLine().toString());
     }
 
-    public boolean responseIs404() {
+    public boolean isResponse404() {
         return RequestData.RESPONSE_404_NOT_FOUND.equals(response.getStatusLine().toString());
     }
 }

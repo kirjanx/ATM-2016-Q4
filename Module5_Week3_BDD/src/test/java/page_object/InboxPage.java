@@ -18,10 +18,10 @@ public class InboxPage extends Page {
         super(driver);
     }
 
-        public boolean isUserMailAfterLoginDisplayed() {
-            agent.isDisplayed();
-            return isUserMailStringAfterLogin.isDisplayed();
-        }
+    public boolean isUserMailAfterLoginDisplayed() {
+        agent.isDisplayed();
+        return isUserMailStringAfterLogin.isDisplayed();
+    }
 
     public HomePage performLogout() {
         logoutLink.click();

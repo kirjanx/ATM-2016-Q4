@@ -10,7 +10,7 @@ public class SentPage extends Page {
     private Element inboxPage = new Element(INBOX_PAGE_LOCATOR);
 
     private static final By SENT_FOLDER_ADDRESS_FIELD_LOCATOR = By.xpath("//a[@class='js-href b-datalist__item__link']");
-    Element sentFolderAddressField = new Element(SENT_FOLDER_ADDRESS_FIELD_LOCATOR);
+    private Element sentFolderAddressField = new Element(SENT_FOLDER_ADDRESS_FIELD_LOCATOR);
 
     public SentPage(WebDriver driver) {
         super(driver);

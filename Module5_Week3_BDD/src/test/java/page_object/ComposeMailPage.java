@@ -1,5 +1,6 @@
 package page_object;
 
+import business_object.user.Letter.Letter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -23,53 +24,61 @@ public class ComposeMailPage extends Page {
     private static final By POP_UP_SUBMIT_SEND_MAIL_LOCATOR = By.xpath("//div[@id='MailRuConfirm']//div[3]/form//button[@type='submit']");
     private static final By INBOX_LINK_AFTER_MAIL_SENT_LOCATOR = By.xpath("//div[@class='message-sent__title']/a[@href='/messages/inbox/']");
 
-    Element createEmailButton = new Element(CREATE_EMAIL_BUTTON_LOCATOR);
-    Element emailFieldTo = new Element(EMAIL_FIELD_TO_LOCATOR);
-    Element emailFieldSubject = new Element(EMAIL_FIELD_SUBJECT_LOCATOR);
-    Element emailFieldBody = new Element(EMAIL_FIELD_BODY_LOCATOR);
-    Element saveEmailButton = new Element(SAVE_EMAIL_BUTTON_LOCATOR);
-    Element addressInputInDraftMail = new Element(ADDRESS_INPUT_IN_DRAFT_MAIL_LOCATOR);
-    Element subjectInputInDraftMail = new Element(SUBJECT_INPUT_IN_DRAFT_MAIL_LOCATOR);
-    Element sendMailButton = new Element(SEND_MAIL_BUTTON_LOCATOR);
-    Element popUpSubmitSendMail = new Element(POP_UP_SUBMIT_SEND_MAIL_LOCATOR);
-    Element bodyInputInDraftMail = new Element(BODY_INPUT_IN_DRAFT_MAIL_LOCATOR);
+    private Element createEmailButton = new Element(CREATE_EMAIL_BUTTON_LOCATOR);
+    private Element emailFieldTo = new Element(EMAIL_FIELD_TO_LOCATOR);
+    private Element emailFieldSubject = new Element(EMAIL_FIELD_SUBJECT_LOCATOR);
+    private Element emailFieldBody = new Element(EMAIL_FIELD_BODY_LOCATOR);
+    private Element saveEmailButton = new Element(SAVE_EMAIL_BUTTON_LOCATOR);
+    private Element addressInputInDraftMail = new Element(ADDRESS_INPUT_IN_DRAFT_MAIL_LOCATOR);
+    private Element subjectInputInDraftMail = new Element(SUBJECT_INPUT_IN_DRAFT_MAIL_LOCATOR);
+    private Element sendMailButton = new Element(SEND_MAIL_BUTTON_LOCATOR);
+    private Element popUpSubmitSendMail = new Element(POP_UP_SUBMIT_SEND_MAIL_LOCATOR);
+    private Element bodyInputInDraftMail = new Element(BODY_INPUT_IN_DRAFT_MAIL_LOCATOR);
 
     public ComposeMailPage(WebDriver driver) {
         super(driver);
     }
 
-      public ComposeMailPage clickCreateMailButton() {
-          createEmailButton.click();
-          return new ComposeMailPage(driver);
-      }
+    public ComposeMailPage open() {
+        createEmailButton.click();
+        return new ComposeMailPage(driver);
+    }
 
-      public ComposeMailPage fillInAddressSubjectAndPassword(String address, String subject, String body) {
-          emailFieldTo.typeValue(address);
-          emailFieldSubject.typeValue(subject);
-          driver.switchTo().frame(driver.findElement(EMAIL_FIELD_BODY_IFRAME_LOCATOR));
-          emailFieldBody.typeValue(body);
-          return new ComposeMailPage(driver);
-      }
+    public ComposeMailPage fillInAddressSubjectAndPassword(String address, String subject, String body) {
+        emailFieldTo.typeValue(address);
+        emailFieldSubject.typeValue(subject);
+        driver.switchTo().frame(driver.findElement(EMAIL_FIELD_BODY_IFRAME_LOCATOR));
+        emailFieldBody.typeValue(body);
+        return new ComposeMailPage(driver);
+    }
 
-      public DraftPage clickSaveButton() {
-          driver.switchTo().defaultContent();
-          saveEmailButton.click();
-          new WebDriverWait(driver, DriverFactory.WEBDRIVER_WAIT_TIME_OUT).until(ExpectedConditions.elementToBeClickable
+    public ComposeMailPage createEmail(Letter letter) {
+        emailFieldTo.typeValue(letter.getAddress());
+        emailFieldSubject.typeValue(letter.getSubject());
+        driver.switchTo().frame(driver.findElement(EMAIL_FIELD_BODY_IFRAME_LOCATOR));
+        emailFieldBody.typeValue(letter.getBody());
+        return new ComposeMailPage(driver);
+    }
+
+    public DraftPage clickSaveButton() {
+        driver.switchTo().defaultContent();
+        saveEmailButton.click();
+        new WebDriverWait(driver, DriverFactory.WEBDRIVER_WAIT_TIME_OUT).until(ExpectedConditions.elementToBeClickable
                 (driver.findElement(NOTIFICATION_STATUS_DRAFT_LINK_LOCATOR)));
-          return new DraftPage(driver);
-      }
+        return new DraftPage(driver);
+    }
 
-      public ComposeMailPage clickSendButton() {
-          sendMailButton.click();
-          String windowHandle = driver.getWindowHandle();
-          driver.switchTo().window(windowHandle);
-          popUpSubmitSendMail.click();
-          new WebDriverWait(driver, DriverFactory.WEBDRIVER_WAIT_TIME_OUT).until(ExpectedConditions.elementToBeClickable
-                  (driver.findElement(INBOX_LINK_AFTER_MAIL_SENT_LOCATOR)));
-          return new ComposeMailPage(driver);
-      }
+    public ComposeMailPage clickSendButton() {
+        sendMailButton.click();
+        String windowHandle = driver.getWindowHandle();
+        driver.switchTo().window(windowHandle);
+        popUpSubmitSendMail.click();
+        new WebDriverWait(driver, DriverFactory.WEBDRIVER_WAIT_TIME_OUT).until(ExpectedConditions.elementToBeClickable
+                (driver.findElement(INBOX_LINK_AFTER_MAIL_SENT_LOCATOR)));
+        return new ComposeMailPage(driver);
+    }
 
-    public String getAddressFromMail2() {
+    public String getAddressFromMail() {
         return addressInputInDraftMail.getText();
     }
 

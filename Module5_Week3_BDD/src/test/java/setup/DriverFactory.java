@@ -20,18 +20,18 @@ public class DriverFactory {
     private static final int PAGE_LOAD_TIMEOUT = 30;
     public static final int WEBDRIVER_WAIT_TIME_OUT = 5;
 
-    public static WebDriver getWebDriverInstance(WebDriverTypes type) throws Exception {
+    public static WebDriver getWebDriverInstance(WebDriverTypes type) {
         switch (type) {
             case FIREFOX: {
-                driver = new FirefoxDriver();
+                driver = getFirefoxInstance();
                 break;
             }
             case CHROME: {
-                driver = new ChromeDriver();
+                driver = getChromeInstance();
                 break;
             }
             case IE: {
-                driver = new InternetExplorerDriver();
+                driver = getIEInstance();
                 break;
             }
             default:

@@ -12,10 +12,10 @@ public class HomePage extends Page {
     private static final By SIGN_IN_BUTTON_LOCATOR = By.xpath("//input[@id='mailbox__auth__button']");
     private static final By ENTER_LINK_LOCATOR = By.xpath("//a[@id='PH_authLink']");
 
-    Element loginInput = new Element(LOGIN_INPUT_LOCATOR);
-    Element passwordInput = new Element(PASSWORD_INPUT_LOCATOR);
-    Element signInButton = new Element(SIGN_IN_BUTTON_LOCATOR);
-    Element enterLink = new Element(ENTER_LINK_LOCATOR);
+    private Element loginInput = new Element(LOGIN_INPUT_LOCATOR);
+    private Element passwordInput = new Element(PASSWORD_INPUT_LOCATOR);
+    private Element signInButton = new Element(SIGN_IN_BUTTON_LOCATOR);
+    private Element enterLink = new Element(ENTER_LINK_LOCATOR);
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -32,7 +32,7 @@ public class HomePage extends Page {
         return new InboxPage(driver);
     }
 
-    public boolean isLogoutSuccessful2() {
+    public boolean isLogoutSuccessful() {
         return enterLink.isDisplayed();
     }
 }

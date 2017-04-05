@@ -19,17 +19,21 @@ public class DraftPage extends Page {
     private static final By DRAFT_FOLDER_ADDRESS_FIELD_LOCATOR = By.xpath("//a[@class='js-href b-datalist__item__link']");
     private static final By CLICKABLE_ICON_LOCATOR = By.xpath("//div[@class='b-datalist__item__pic']");
 
-    Element sentFolderLink = new Element(SENT_FOLDER_LINK_LOCATOR);
-    Element draftFolderLink = new Element(DRAFT_FOLDER_LINK_LOCATOR);
-    Element trashIconInContextMenuLink = new Element(TRASH_ICON_IN_CONTEXT_MENU_LOCATOR);
-    Element draftFolderAddressField = new Element(DRAFT_FOLDER_ADDRESS_FIELD_LOCATOR);
+    private Element sentFolderLink = new Element(SENT_FOLDER_LINK_LOCATOR);
+    private Element draftFolderLink = new Element(DRAFT_FOLDER_LINK_LOCATOR);
+    private Element trashIconInContextMenuLink = new Element(TRASH_ICON_IN_CONTEXT_MENU_LOCATOR);
+    private Element draftFolderAddressField = new Element(DRAFT_FOLDER_ADDRESS_FIELD_LOCATOR);
 
     public DraftPage(WebDriver driver) {
         super(driver);
     }
 
+    private void waitForElementToBeClickable(By locator) {
+        new WebDriverWait(driver, DriverFactory.WEBDRIVER_WAIT_TIME_OUT).
+                until(ExpectedConditions.elementToBeClickable(driver.findElement(locator)));
+    }
+
     public DraftPage openDraftFolder() {
-        driver.switchTo().defaultContent();
         draftFolderLink.click();
         return new DraftPage(driver);
     }
@@ -40,8 +44,7 @@ public class DraftPage extends Page {
 
     public ComposeMailPage openMailFromDraftFolder() {
         draftFolderAddressField.click();
-        new WebDriverWait(driver, DriverFactory.WEBDRIVER_WAIT_TIME_OUT).until(ExpectedConditions.elementToBeClickable
-                (driver.findElement(EMAIL_FIELD_TO_LOCATOR)));
+        waitForElementToBeClickable(EMAIL_FIELD_TO_LOCATOR);
         return new ComposeMailPage(driver);
     }
 
@@ -52,8 +55,7 @@ public class DraftPage extends Page {
     public SentPage openSentFolder() {
         driver.switchTo().defaultContent();
         sentFolderLink.click();
-        new WebDriverWait(driver, DriverFactory.WEBDRIVER_WAIT_TIME_OUT).until(ExpectedConditions.elementToBeClickable
-                (driver.findElement(CLICKABLE_ICON_LOCATOR)));
+        waitForElementToBeClickable(CLICKABLE_ICON_LOCATOR);
         return new SentPage(driver);
     }
 
@@ -78,8 +80,7 @@ public class DraftPage extends Page {
     public DraftPage dragAndDropMail() {
         new Actions(driver).dragAndDrop(driver.findElement(DRAFT_FOLDER_ADDRESS_FIELD_LOCATOR),
                 driver.findElement(TRASH_ICON_LOCATOR)).build().perform();
-        new WebDriverWait(driver, DriverFactory.WEBDRIVER_WAIT_TIME_OUT).until(ExpectedConditions
-                .elementToBeClickable(driver.findElement(WAIT_TEXT_SENT_FOLDER_LOCATOR)));
+        waitForElementToBeClickable(WAIT_TEXT_SENT_FOLDER_LOCATOR);
         return new DraftPage(driver);
     }
 }
